@@ -17,7 +17,7 @@ namespace Narochno.Jenkins.Entities.Builds
         public string Id { get; set; }
         public bool KeepLog { get; set; }
         public long QueuedId { get; set; }
-        public Result Result { get; set; }
+        public string Result { get; set; }
         public ChangeSet ChangeSet { get; set; }
         public IList<User> Culprits { get; set; } = new List<User>();
         public JArray Actions { get; set; }
