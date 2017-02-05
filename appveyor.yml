@@ -1,0 +1,25 @@
+version: '{build}'  
+pull_requests:  
+  do_not_increment_build_number: true
+
+branches:  
+  only:
+  - master
+
+nuget:  
+  disable_publish_on_pr: true
+
+before_build:
+  - cmd: dotnet restore
+
+after_build:
+- dotnet pack "src\Narochno.Jenkins\project.json" -c Release
+
+artifacts:
+- path: src\Narochno.Jenkins\bin\Release\*.nupkg
+
+deploy:  
+  - provider: Environment
+    name: nuget.org
+    on:
+      branch: master
