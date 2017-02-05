@@ -12,7 +12,7 @@ namespace Narochno.Jenkins.Entities.Builds
         public string DisplayName { get; set; }
         public long Duration { get; set; }
         public long EstimatedDuration { get; set; }
-        public string Executor { get; set; }
+        public JObject Executor { get; set; }
         public string FullDisplayName { get; set; }
         public string Id { get; set; }
         public bool KeepLog { get; set; }
