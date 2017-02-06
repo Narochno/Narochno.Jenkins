@@ -10,6 +10,7 @@ namespace Narochno.Jenkins.Entities.Builds
         public string CommitId { get; set; }
         public string ShortCommitId => CommitId.Length > 8 ? CommitId.Substring(0, 8) : CommitId;
         public DateTime Date { get; set; }
+        public long Timestamp { get; set; }
         [JsonProperty("msg")]
         public string Message { get; set; }
         public User Author { get; set; }
