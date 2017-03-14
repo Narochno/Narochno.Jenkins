@@ -1,4 +1,4 @@
-# Narochno.Jenkins [![Build status](https://ci.appveyor.com/api/projects/status/imperehby0ri5rmn/branch/master?svg=true)](https://ci.appveyor.com/project/Narochno/narochno-jenkins/branch/master)
+# Narochno.Jenkins [![Build status](https://ci.appveyor.com/api/projects/status/c8f7v86cvwija07w/branch/master?svg=true)](https://ci.appveyor.com/project/Narochno/narochno-jenkins/branch/master)
 A simple Jenkins client, providing a C# wrapper around the default Jenkins API.
 
 ## Example Usage

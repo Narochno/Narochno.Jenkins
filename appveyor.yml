@@ -1,5 +1,7 @@
-version: '{build}'  
-pull_requests:  
+version: '{build}'
+image: Visual Studio 2017
+
+pull_requests:
   do_not_increment_build_number: true
 
 branches:  
@@ -10,16 +12,16 @@ nuget:
   disable_publish_on_pr: true
 
 before_build:
-  - cmd: dotnet restore
+- cmd: dotnet restore
 
 after_build:
-- dotnet pack "src\Narochno.Jenkins\project.json" -c Release
+- dotnet pack "src\Narochno.Jenkins" -c Release
 
 artifacts:
 - path: src\Narochno.Jenkins\bin\Release\*.nupkg
 
 deploy:  
-  - provider: Environment
-    name: nuget.org
-    on:
-      branch: master
+- provider: Environment
+  name: nuget.org
+  on:
+    branch: master

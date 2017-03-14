@@ -1,22 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9BFDBA2A-687E-42A9-B7EF-8374EEF66BE7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4881988-4E34-4583-B445-3CCE4324448A}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		global.json = global.json
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CBDBE04D-3098-432B-B90E-B4BE55DAE664}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Narochno.Jenkins", "src\Narochno.Jenkins\Narochno.Jenkins.xproj", "{D6E0B526-20D4-4B98-8140-C65D6EBB6D94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Narochno.Jenkins", "src\Narochno.Jenkins\Narochno.Jenkins.csproj", "{D6E0B526-20D4-4B98-8140-C65D6EBB6D94}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Narochno.Jenkins.Tester", "test\Narochno.Jenkins.Tester\Narochno.Jenkins.Tester.xproj", "{8A7BE42C-5139-45EF-B532-A99E45ABA613}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Narochno.Jenkins.Tester", "test\Narochno.Jenkins.Tester\Narochno.Jenkins.Tester.csproj", "{8A7BE42C-5139-45EF-B532-A99E45ABA613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A simple Jenkins client, providing a C# wrapper around the default Jenkins API.</Description>
+    <VersionPrefix>1.1.2</VersionPrefix>
+    <Authors>alanedwardes</Authors>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <AssemblyName>Narochno.Jenkins</AssemblyName>
+    <PackageId>Narochno.Jenkins</PackageId>
+    <PackageTags>client;csharp;jenkins;netcore</PackageTags>
+    <PackageIconUrl>https://avatars.githubusercontent.com/u/24652538</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Narochno/Narochno.Jenkins</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Polly" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.0" />
+    <PackageReference Include="Narochno.Primitives.Json" Version="2.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.Net.Http" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
