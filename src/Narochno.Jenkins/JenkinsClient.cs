@@ -45,7 +45,7 @@ namespace Narochno.Jenkins
 
         public async Task<UserInfo> GetUser(string user, CancellationToken ctx)
         {
-            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/user/" + WebUtility.UrlEncode(user) + "/api/json", ctx));
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/user/" + user + "/api/json", ctx));
 
             response.EnsureSuccessStatusCode();
 
@@ -54,7 +54,7 @@ namespace Narochno.Jenkins
 
         public async Task<ViewInfo> GetView(string view, CancellationToken ctx)
         {
-            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/view/" + WebUtility.UrlEncode(view) + "/api/json", ctx));
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/view/" + view + "/api/json", ctx));
 
             response.EnsureSuccessStatusCode();
 
@@ -63,7 +63,7 @@ namespace Narochno.Jenkins
 
         public async Task<BuildInfo> GetBuild(string job, string build, CancellationToken ctx)
         {
-            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + WebUtility.UrlEncode(job) + "/" + WebUtility.UrlEncode(build) + "/api/json", ctx));
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/" + build + "/api/json", ctx));
 
             response.EnsureSuccessStatusCode();
 
@@ -72,7 +72,7 @@ namespace Narochno.Jenkins
 
         public async Task<JobInfo> GetJob(string job, CancellationToken ctx)
         {
-            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + WebUtility.UrlEncode(job) + "/api/json", ctx));
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/api/json", ctx));
 
             response.EnsureSuccessStatusCode();
 
@@ -90,7 +90,7 @@ namespace Narochno.Jenkins
 
         public async Task BuildProject(string job, CancellationToken ctx = default(CancellationToken))
         {
-            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + WebUtility.UrlEncode(job) + "/build", null));
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/build", null));
 
             response.EnsureSuccessStatusCode();
         }
