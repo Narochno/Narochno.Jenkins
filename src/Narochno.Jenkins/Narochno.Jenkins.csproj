@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>A simple Jenkins client, providing a C# wrapper around the default Jenkins API.</Description>
-    <VersionPrefix>1.1.2</VersionPrefix>
+    <Version>2.0.0</Version>
     <Authors>alanedwardes</Authors>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>Narochno.Jenkins</AssemblyName>
