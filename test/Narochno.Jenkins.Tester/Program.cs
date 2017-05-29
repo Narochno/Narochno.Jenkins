@@ -40,9 +40,9 @@ namespace Narochno.Jenkins.Tester
                 {
                     var buildInfo = await jenkinsClient.GetBuild(job.Name, build.Number.ToString());
 
-                    if (buildInfo.ChangeSet.Items.Count > 0)
+                    if (buildInfo.ChangeSet.Revisions.Count > 0)
                     {
-                        Console.WriteLine($"Got build {buildInfo} from {buildInfo.ChangeSet.Kind} revision {buildInfo.ChangeSet.Items.FirstOrDefault()}");
+                        Console.WriteLine($"Got build {buildInfo} from {buildInfo.ChangeSet.Kind} revision {buildInfo.ChangeSet.Revisions.FirstOrDefault().Revision}");
                     }
                 }
             }
