@@ -15,6 +15,7 @@ using Narochno.Jenkins.Entities.Builds;
 using Narochno.Jenkins.Entities.Jobs;
 using Narochno.Jenkins.Entities.Views;
 using Narochno.Jenkins.Entities.Users;
+using System.Text.RegularExpressions;
 
 namespace Narochno.Jenkins
 {
@@ -70,6 +71,18 @@ namespace Narochno.Jenkins
             return JsonConvert.DeserializeObject<BuildInfo>(await response.Content.ReadAsStringAsync(), serializerSettings);
         }
 
+        public async Task<BuildGraphInfo> GetBuildGraph(string job, string build, CancellationToken ctx = default(CancellationToken))
+        {
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/" + build + "/BuildGraph/api/json", ctx));
+
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            return BuildGraphInfo.Deserialize(content, serializerSettings);
+            
+        }
+
         public async Task<JobInfo> GetJob(string job, CancellationToken ctx)
         {
             var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/api/json", ctx));
@@ -103,5 +116,7 @@ namespace Narochno.Jenkins
         }
 
         public void Dispose() => httpClient.Dispose();
+
+        
     }
 }
