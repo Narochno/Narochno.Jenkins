@@ -32,7 +32,7 @@ namespace Narochno.Jenkins.Tester
 
             var master = await jenkinsClient.GetMaster();
 
-            foreach (var job in master.Jobs.Where(j => j.Name.Contains("Quick") && j.Name.Contains("Dev")))
+            foreach (var job in master.Jobs.Where(j => j.Name.Contains("BuildTriggeringOtherBuilds")))
             {
                 var jobInfo = await jenkinsClient.GetJob(job.Name);
 
