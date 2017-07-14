@@ -32,6 +32,26 @@ namespace Narochno.Jenkins.Tester
 
             var master = await jenkinsClient.GetMaster();
 
+            foreach (var job in master.Jobs.Where(j => j.Name.Contains("BuildTriggeringOtherBuilds")))
+            {
+                var jobInfo = await jenkinsClient.GetJob(job.Name);
+
+                var build = jobInfo.Builds.Single(b => b.Number == jobInfo.Builds.Max(x => x.Number));
+                var buildInfo = await jenkinsClient.GetBuild(job.Name, build.Number.ToString());
+                var buildGraphInfo = await jenkinsClient.GetBuildGraph(job.Name, build.Number.ToString());
+
+                foreach (var node in buildGraphInfo.Nodes)
+                {
+                    var subBuildInfo = await jenkinsClient.GetBuild(node.JobName, node.BuildNumber.ToString());
+                    Console.WriteLine($"Got build {subBuildInfo}. Result {subBuildInfo.Result}");
+
+                    if (subBuildInfo.ChangeSet.Items.Count > 0)
+                    {
+                        Console.WriteLine($"Got build {subBuildInfo} from {subBuildInfo.ChangeSet.Kind} revision {subBuildInfo.ChangeSet.Items.FirstOrDefault()}");
+                    }
+                }
+            }
+
             foreach (var job in master.Jobs)
             {
                 var jobInfo = await jenkinsClient.GetJob(job.Name);
