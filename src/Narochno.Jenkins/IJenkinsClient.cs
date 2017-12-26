@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Narochno.Jenkins.Entities;
 using Narochno.Jenkins.Entities.Builds;
@@ -17,5 +18,11 @@ namespace Narochno.Jenkins
         Task<ViewInfo> GetView(string view, CancellationToken ctx = default(CancellationToken));
         Task<Master> GetMaster(CancellationToken ctx = default(CancellationToken));
         Task BuildProject(string job, CancellationToken ctx = default(CancellationToken));
+        Task BuildProjectWithParameters(string job, IDictionary<string, string> parameters, CancellationToken ctx = default(CancellationToken));
+        Task CopyJob(string fromJobName, string newJobName, CancellationToken ctx = default(CancellationToken));
+        Task<string> DownloadJobConfig(string job, CancellationToken ctx = default(CancellationToken));
+        Task UploadJobConfig(string job, string xml, CancellationToken ctx = default(CancellationToken));
+        Task EnableJob(string job, CancellationToken ctx = default(CancellationToken));
+        Task DisableJob(string job, CancellationToken ctx = default(CancellationToken));
     }
 }
