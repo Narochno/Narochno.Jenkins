@@ -1,6 +1,7 @@
 ﻿using Narochno.Primitives.Json;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ using Narochno.Jenkins.Entities.Builds;
 using Narochno.Jenkins.Entities.Jobs;
 using Narochno.Jenkins.Entities.Views;
 using Narochno.Jenkins.Entities.Users;
+using Narochno.Primitives;
+using System.Linq;
 
 namespace Narochno.Jenkins
 {
@@ -91,6 +94,71 @@ namespace Narochno.Jenkins
         public async Task BuildProject(string job, CancellationToken ctx = default(CancellationToken))
         {
             var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/build", null));
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task BuildProjectWithParameters(string job, IDictionary<string, string> parameters, CancellationToken ctx = default(CancellationToken))
+        {
+            var response = await GetRetryPolicy().ExecuteAsync(() =>
+            {
+                var p = new {parameter = parameters.Select(x => new {name = x.Key, value = x.Value}).ToArray()};
+                var json = JsonConvert.SerializeObject(p);
+                var content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("json", json)
+                });
+
+                return httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/build", content, ctx);
+            });
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task CopyJob(string fromJobName, string newJobName, CancellationToken ctx = default(CancellationToken))
+        {
+            var requestUri = jenkinsConfig.JenkinsUrl + "/createItem" + $"?name={newJobName}&mode=copy&from={fromJobName}";
+            var content = new StringContent("", Encoding.UTF8, "application/xml");
+
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(requestUri, content, ctx));
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<string> DownloadJobConfig(string job, CancellationToken ctx = default(CancellationToken))
+        {
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/config.xml", ctx));
+
+            response.EnsureSuccessStatusCode();
+
+            var config = await response.Content.ReadAsStringAsync();
+
+            return config;
+        }
+
+        public async Task UploadJobConfig(string job, string xml, CancellationToken ctx = default(CancellationToken))
+        {
+            var content = new StringContent(xml, Encoding.UTF8, "application/xml");
+
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/config.xml", content, ctx));
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task EnableJob(string job, CancellationToken ctx = default(CancellationToken))
+        {
+            var content = new StringContent("");
+
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/enable", content, ctx));
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DisableJob(string job, CancellationToken ctx = default(CancellationToken))
+        {
+            var content = new StringContent("");
+
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/disable", content, ctx));
 
             response.EnsureSuccessStatusCode();
         }
