@@ -188,6 +188,17 @@ namespace Narochno.Jenkins
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task DeleteJob(string job, CancellationToken ctx = default(CancellationToken))
+        {
+            var content = new StringContent("");
+
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/doDelete", content, ctx));
+
+            response = await FollowRedirect(response);
+
+            response.EnsureSuccessStatusCode();
+        }
+
         public RetryPolicy<HttpResponseMessage> GetRetryPolicy()
         {
             return Policy
