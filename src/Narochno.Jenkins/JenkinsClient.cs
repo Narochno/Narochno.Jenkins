@@ -23,7 +23,7 @@ namespace Narochno.Jenkins
 {
     public class JenkinsClient : IJenkinsClient
     {
-        private readonly HttpClient httpClient = new HttpClient();
+        private readonly HttpClient httpClient;
         private readonly JenkinsConfig jenkinsConfig;
         private readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
@@ -36,6 +36,13 @@ namespace Narochno.Jenkins
             {
                 throw new ArgumentNullException(nameof(jenkinsConfig));
             }
+
+            var handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false
+            };
+
+            httpClient = new HttpClient(handler);
 
             this.jenkinsConfig = jenkinsConfig;
 
@@ -120,9 +127,23 @@ namespace Narochno.Jenkins
             var requestUri = jenkinsConfig.JenkinsUrl + "/createItem" + $"?name={newJobName}&mode=copy&from={fromJobName}";
             var content = new StringContent("", Encoding.UTF8, "application/xml");
 
-            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(requestUri, content, ctx));
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, requestUri)
+            {
+                Content = content
+            };
 
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.SendAsync(message, ctx));
+
+            response = await FollowRedirect(response);
+            
             response.EnsureSuccessStatusCode();
+        }
+
+        private async Task<HttpResponseMessage> FollowRedirect(HttpResponseMessage response)
+        {
+            if (response.StatusCode != HttpStatusCode.Redirect) return response;
+
+            return await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(response.Headers.Location.AbsoluteUri));
         }
 
         public async Task<string> DownloadJobConfig(string job, CancellationToken ctx = default(CancellationToken))
@@ -151,6 +172,8 @@ namespace Narochno.Jenkins
 
             var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/enable", content, ctx));
 
+            response = await FollowRedirect(response);
+
             response.EnsureSuccessStatusCode();
         }
 
@@ -159,6 +182,19 @@ namespace Narochno.Jenkins
             var content = new StringContent("");
 
             var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/disable", content, ctx));
+
+            response = await FollowRedirect(response);
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteJob(string job, CancellationToken ctx = default(CancellationToken))
+        {
+            var content = new StringContent("");
+
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.PostAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/doDelete", content, ctx));
+
+            response = await FollowRedirect(response);
 
             response.EnsureSuccessStatusCode();
         }
