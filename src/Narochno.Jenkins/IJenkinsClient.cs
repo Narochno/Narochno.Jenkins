@@ -13,6 +13,7 @@ namespace Narochno.Jenkins
     public interface IJenkinsClient : IDisposable
     {
         Task<BuildInfo> GetBuild(string job, string build, CancellationToken ctx = default(CancellationToken));
+        Task<string> GetBuildConsole(string job, string build, CancellationToken ctx = default(CancellationToken));
         Task<JobInfo> GetJob(string job, CancellationToken ctx = default(CancellationToken));
         Task<UserInfo> GetUser(string user, CancellationToken ctx = default(CancellationToken));
         Task<ViewInfo> GetView(string view, CancellationToken ctx = default(CancellationToken));

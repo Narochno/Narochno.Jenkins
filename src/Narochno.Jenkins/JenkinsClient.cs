@@ -80,6 +80,12 @@ namespace Narochno.Jenkins
             return JsonConvert.DeserializeObject<BuildInfo>(await response.Content.ReadAsStringAsync(), serializerSettings);
         }
 
+        public async Task<string> GetBuildConsole(string job, string build, CancellationToken ctx)
+        {
+            var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/" + build + "/consoleText", ctx));
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
+        }
         public async Task<JobInfo> GetJob(string job, CancellationToken ctx)
         {
             var response = await GetRetryPolicy().ExecuteAsync(() => httpClient.GetAsync(jenkinsConfig.JenkinsUrl + "/job/" + job + "/api/json", ctx));

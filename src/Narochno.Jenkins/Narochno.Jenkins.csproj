@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <Description>A simple Jenkins client, providing a C# wrapper around the default Jenkins API.</Description>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <Authors>alanedwardes</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Narochno.Jenkins</AssemblyName>
     <PackageId>Narochno.Jenkins</PackageId>
     <PackageTags>client;csharp;jenkins;netcore</PackageTags>
@@ -13,14 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Polly" Version="5.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.0" />
-    <PackageReference Include="Narochno.Primitives.Json" Version="2.5.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Net.Http" Version="4.3.0" />
+    <PackageReference Include="Polly" Version="6.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Narochno.Primitives.Json" Version="2.6.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 
 </Project>
