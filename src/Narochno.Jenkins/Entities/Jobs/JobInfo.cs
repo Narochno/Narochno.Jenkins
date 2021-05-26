@@ -17,6 +17,7 @@ namespace Narochno.Jenkins.Entities.Jobs
         public long NextBuildNumber { get; set; }
         public IList<HealthReport> HealthReport { get; set; } = new List<HealthReport>();
         public IList<Build> Builds { get; set; } = new List<Build>();
+        public IList<Job> Jobs { get; set; } = new List<Job>();
         public Build FirstBuild { get; set; }
         public Build LastBuild { get; set; }
         public Build LastCompletedBuild { get; set; }
