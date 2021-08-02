@@ -244,7 +244,7 @@ namespace Narochno.Jenkins
         
         public async Task DeleteFolder(string folder, CancellationToken ctx = default(CancellationToken))
         {
-            //Yes, delete job/folder is the same. As this might not be transparent we have this endpoint.
+            //Yes, delete job/folder are the same. As this might not be transparent we have this endpoint.
             await DeleteJob(folder, ctx);
         }
 
